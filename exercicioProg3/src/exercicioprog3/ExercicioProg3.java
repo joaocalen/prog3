@@ -9,7 +9,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -31,6 +33,8 @@ public class ExercicioProg3 {
             case 2:
                 exercicio2();
                 break;
+            case 3:
+                exercicio3();
             default:
                 break;
         }
@@ -39,11 +43,7 @@ public class ExercicioProg3 {
     private static void exercicio1() {
         try {
 
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println("Digite o nome do arquivo: ");
-
-            String nomeArquivo = scanner.nextLine();
+            String nomeArquivo = nomeArquivo();
 
             BufferedReader buffer = new BufferedReader(new FileReader(nomeArquivo));
 
@@ -72,9 +72,44 @@ public class ExercicioProg3 {
         return aluno;
 
     }
-    
-    private static void exercicio3(){
-        
+
+    private static void exercicio3() {
+        try {
+
+            String nomeArquivo = nomeArquivo();
+
+            BufferedReader buffer = new BufferedReader(new FileReader(nomeArquivo));
+
+            String linha = "";
+
+            ArrayList<Aluno> alunos;
+
+            Aluno aluno = new Aluno();
+            StringTokenizer st = new StringTokenizer(" ")
+            while (st.hasMoreTokens()) {
+
+            }
+
+            while (linha != null) {
+                System.out.println(linha);
+                linha = buffer.readLine();
+            }
+            buffer.close();
+        } catch (FileNotFoundException fnf) {
+            System.out.println("ERRO! ARQUIVO NÃO ENCONTRADO");
+        } catch (IOException e) {
+            System.out.println("ERRO!" + e);
+        }
+    }
+
+    public static String nomeArquivo() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Digite o nome do arquivo: ");
+
+        String nomeArquivo = scanner.nextLine();
+
+        return nomeArquivo;
     }
 
 }
