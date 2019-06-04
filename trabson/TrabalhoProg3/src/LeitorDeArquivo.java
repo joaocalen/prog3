@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class LeitorDeArquivo {
 	ArrayList<Ppg> ppgs;
-	ArrayList<Anais> anais;
+	ArrayList<TipoProducao> producoes;
 	ArrayList<Instituicao> instituicoes;
 	ArrayList<Ppg_Instituicao> ppgs_instituicoes;
 	private BufferedReader br;
@@ -16,7 +16,7 @@ public class LeitorDeArquivo {
 
 	public LeitorDeArquivo() {
 		ppgs = new ArrayList<>();
-		anais = new ArrayList<>();
+		producoes = new ArrayList<>();
 		instituicoes = new ArrayList<>();
 		ppgs_instituicoes = new ArrayList<>();
 		numPaginas = 0;
@@ -27,8 +27,8 @@ public class LeitorDeArquivo {
 		return ppgs;
 	}
 
-	public ArrayList<Anais> getAnais() {
-		return anais;
+	public ArrayList<TipoProducao> getProducoes() {
+		return producoes;
 	}
 
 	public ArrayList<Instituicao> getInstituicoes() {
@@ -69,43 +69,44 @@ public class LeitorDeArquivo {
 				while (br.ready()) {
 					linha = br.readLine();
 					campos = linha.split(";");
-					inserirTraducoes(campos);
+					adicionarTraducoes(campos, natureza, titulo, paginas, idioma, editora, cidade, traducao);
 				}
 			} else if (formacao != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
 					campos = linha.split(";");
-					inserirPartitura(campos);
+					adicionarPartitura(campos, natureza, editora, cidade, formacao, paginas);
 				}
 			} else if (isbn != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
 					campos = linha.split(";");
-					inserirLivro(campos);
+					adicionarLivro(campos, natureza, titulo, idioma, editora, cidade, isbn, paginas);
 				}
 			} else if (data != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
 					campos = linha.split(";");
-					inserirArtjr(campos);
+					adicionarArtjr(campos, cidade, titulo, idioma, data, issn, pagFinal, pagInicial);
 				}
 			} else if (issn != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
 					campos = linha.split(";");
-					inserirArtpe(campos);
+					adicionarArtpe(campos, natureza, idioma, editora, cidade, volume, fasciculo, serie, issn, pagFinal,
+							pagInicial);
 				}
 			} else if (titulo != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
 					campos = linha.split(";");
-					inserirAnais(campos, natureza, titulo, pagFinal, pagInicial, evento, cidade, idioma);
+					adicionarAnais(campos, natureza, titulo, pagFinal, pagInicial, evento, cidade, idioma);
 				}
 			} else {
 				while (br.ready()) {
 					linha = br.readLine();
 					campos = linha.split(";");
-					inserirOutros(campos);
+					adicionarOutros(campos, natureza, idioma, editora, cidade, paginas);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -126,61 +127,168 @@ public class LeitorDeArquivo {
 		return -1;
 	}
 
-	public void inserirArtjr(String[] campos) {
-
-	}
-
-	public void inserirArtpe(String[] campos) {
-
-	}
-
-	public void inserirLivro(String[] campos) {
-
-	}
-
-	public void inserirPartitura(String[] campos) {
-
-	}
-
-	public void inserirOutros(String[] campos) {
-
-	}
-
-	public void inserirTraducoes(String[] campos) {
-
-	}
-
-	public void inserirAnais(String[] campos, int a, int b, int c, int d, int e, int f, int g) {
+	public void adicionarArtjr(String[] campos, int cidade, int titulo, int idioma, int data, int issn, int pagFinal,
+			int pagInicial) {
 		String cd_ppg;
 		String nome_ppg;
 		String sigla_inst;
 		String nome_inst;
-		String natureza;
-		String titulo;
-		String pagFinal;
-		String pagInicial;
-		String evento;
-		String cidade;
-		String idioma;
 
 		cd_ppg = campos[0].trim();
 		nome_ppg = campos[1].trim();
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
-		natureza = campos[a].trim();
-		titulo = campos[b].trim();
-		pagFinal = campos[c].trim();
-		pagInicial = campos[d].trim();
-		evento = campos[e].trim();
-		cidade = campos[f].trim();
-		idioma = campos[g].trim();
-
-		insereAnais(natureza, titulo, pagFinal, pagInicial, evento, cidade, idioma, cd_ppg);
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
 		inserePpg_Instituicao(cd_ppg, sigla_inst);
 
+		Artjr aj = new Artjr(campos[cidade], 0, cd_ppg, campos[titulo], campos[idioma], null, campos[issn]);
+		aj.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal], campos[pagInicial]));
+		this.producoes.add(aj);
+	}
+
+	public void adicionarArtpe(String[] campos, int natureza, int idioma, int editora, int cidade, int volume,
+			int fasciculo, int serie, int issn, int pagFinal, int pagInicial) {
+		String cd_ppg;
+		String nome_ppg;
+		String sigla_inst;
+		String nome_inst;
+
+		cd_ppg = campos[0].trim();
+		nome_ppg = campos[1].trim();
+		sigla_inst = campos[2].trim();
+		nome_inst = campos[3].trim();
+
+		inserePpg(cd_ppg, nome_ppg);
+		insereInstituicao(sigla_inst, nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst);
+
+		Artpe ap = new Artpe(campos[cidade], 0, cd_ppg, campos[natureza], campos[idioma], campos[editora],
+				campos[volume], campos[fasciculo], campos[serie], campos[issn]);
+		ap.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal], campos[pagInicial]));
+		this.producoes.add(ap);
+	}
+
+	public void adicionarLivro(String[] campos, int natureza, int titulo, int idioma, int editora, int cidade, int isbn,
+			int pagFinal) {
+		String cd_ppg;
+		String nome_ppg;
+		String sigla_inst;
+		String nome_inst;
+
+		cd_ppg = campos[0].trim();
+		nome_ppg = campos[1].trim();
+		sigla_inst = campos[2].trim();
+		nome_inst = campos[3].trim();
+
+		inserePpg(cd_ppg, nome_ppg);
+		insereInstituicao(sigla_inst, nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst);
+
+		Livro l = new Livro(campos[cidade], 0, cd_ppg, campos[natureza], campos[titulo], campos[idioma], campos[isbn],
+				campos[editora]);
+		l.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal], "1"));
+		this.producoes.add(l);
+	}
+
+	public void adicionarPartitura(String[] campos, int natureza, int editora, int cidade, int formacao, int pagFinal) {
+
+		String cd_ppg;
+		String nome_ppg;
+		String sigla_inst;
+		String nome_inst;
+
+		cd_ppg = campos[0].trim();
+		nome_ppg = campos[1].trim();
+		sigla_inst = campos[2].trim();
+		nome_inst = campos[3].trim();
+
+		inserePpg(cd_ppg, nome_ppg);
+		insereInstituicao(sigla_inst, nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst);
+
+		Partitura p = new Partitura(campos[cidade], 0, cd_ppg, campos[natureza], campos[editora], campos[formacao]);
+		p.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal], "1"));
+		this.producoes.add(p);
+
+	}
+
+	public void adicionarOutros(String[] campos, int natureza, int idioma, int editora, int cidade, int paginas) {
+
+		String cd_ppg;
+		String nome_ppg;
+		String sigla_inst;
+		String nome_inst;
+
+		cd_ppg = campos[0].trim();
+		nome_ppg = campos[1].trim();
+		sigla_inst = campos[2].trim();
+		nome_inst = campos[3].trim();
+
+		inserePpg(cd_ppg, nome_ppg);
+		insereInstituicao(sigla_inst, nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		Outro o = new Outro(campos[cidade], 0, cd_ppg, campos[natureza], campos[idioma], campos[editora]);
+		o.setNumPaginas(adicionarNumeroPaginas(campos[paginas], "1"));
+		this.producoes.add(o);
+	}
+
+	public void adicionarTraducoes(String[] campos, int natureza, int titulo, int pagFinal, int idioma, int editora,
+			int cidade, int traducao) {
+		String cd_ppg;
+		String nome_ppg;
+		String sigla_inst;
+		String nome_inst;
+
+		cd_ppg = campos[0].trim();
+		nome_ppg = campos[1].trim();
+		sigla_inst = campos[2].trim();
+		nome_inst = campos[3].trim();
+
+		inserePpg(cd_ppg, nome_ppg);
+		insereInstituicao(sigla_inst, nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		Traducao t = new Traducao(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[titulo],
+				campos[idioma], campos[editora], campos[traducao]);
+		t.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal], "1"));
+		this.producoes.add(t);
+
+	}
+
+	public void adicionarAnais(String[] campos, int natureza, int titulo, int pagFinal, int pagInicial, int evento,
+			int cidade, int idioma) {
+		String cd_ppg;
+		String nome_ppg;
+		String sigla_inst;
+		String nome_inst;
+
+		cd_ppg = campos[0].trim();
+		nome_ppg = campos[1].trim();
+		sigla_inst = campos[2].trim();
+		nome_inst = campos[3].trim();
+
+		inserePpg(cd_ppg, nome_ppg);
+		insereInstituicao(sigla_inst, nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		Anais a = new Anais(campos[natureza], campos[titulo], campos[idioma], campos[evento], campos[cidade], 0,
+				cd_ppg);
+		a.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal], campos[pagInicial]));
+		this.producoes.add(a);
+	}
+
+	public int adicionarNumeroPaginas(String pagFinal, String pagInicial) {
+		try {
+			long pags = Long.parseLong(pagFinal) - Long.parseLong(pagInicial) + 1;
+			if (pags > 0 && pags < 2000 && Long.parseLong(pagFinal) > 0 && Long.parseLong(pagInicial) > 0) {
+				numPaginas += pags;
+				numDocs++;
+				return (int) pags;
+			}
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+		return 0;
 	}
 
 	public void inserePpg(String cd, String nome) {
@@ -203,23 +311,6 @@ public class LeitorDeArquivo {
 		this.instituicoes.add(i);
 	}
 
-	public void insereAnais(String natureza, String titulo, String pagFinal, String pagInicial, String evento,
-			String cidade, String idioma, String cd_ppg) {
-		Anais a = new Anais(natureza, titulo, idioma, evento, cidade, 0, cd_ppg);
-		try {
-			long pags = Long.parseLong(pagFinal) - Long.parseLong(pagInicial) + 1;
-			if (pags > 0 && pags < 2000 && Long.parseLong(pagFinal) > 0 && Long.parseLong(pagInicial) > 0) {
-				a.setNumPaginas((int) pags);
-				numPaginas += pags;
-				numDocs++;
-			}
-		} catch (NumberFormatException e) {
-			this.anais.add(a);
-			return;
-		}
-		this.anais.add(a);
-	}
-
 	public void inserePpg_Instituicao(String cd_ppg, String sigla) {
 		Ppg_Instituicao ppgI = new Ppg_Instituicao(cd_ppg, sigla);
 		if (this.ppgs_instituicoes.size() > 0) {
@@ -240,7 +331,7 @@ public class LeitorDeArquivo {
 	public void imprimirAnais() {
 		System.out.println("Instituicoes que publicaram em anais: " + this.instituicoes.size());
 		System.out.println("PPGs que publicaram em anais: " + this.ppgs.size());
-		System.out.println("Quantidade de producoes em anais: " + this.anais.size());
+		System.out.println("Quantidade de producoes em anais: " + this.producoes.size());
 		System.out.println("Quantidade de paginas publicadas em anais: " + numPaginas);
 		System.out.printf("Media de paginas por publicacao: %.1f\n", (double) numPaginas / numDocs);
 	}

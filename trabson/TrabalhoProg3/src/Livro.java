@@ -4,14 +4,16 @@ public class Livro extends TipoProducao {
 	String titulo;
 	String idioma;
 	String isbn;
+	String editora;
 
 	public Livro(String cidade, int numPaginas, String cd_Ppg, String natureza, String titulo, String idioma,
-			String isbn) {
+			String isbn, String editora) {
 		super(cidade, numPaginas, cd_Ppg);
 		this.natureza = natureza;
 		this.titulo = titulo;
 		this.idioma = idioma;
 		this.isbn = isbn;
+		this.editora = editora;
 	}
 
 	public String getNatureza() {
