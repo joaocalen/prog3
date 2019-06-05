@@ -22,12 +22,19 @@ public class TrabalhoProg3 {
         
         String pasta = entrada.nextLine();
         String arquivo = entrada.nextLine();
-        
         LeitorDeArquivo leitor = new LeitorDeArquivo();
         
-        leitor.lerCSV(pasta+arquivo);
+        while (arquivo.length() >=4 && arquivo.substring(arquivo.length()-4,arquivo.length()).equals(".csv")) {        	        
+            leitor.lerCSV(pasta+arquivo);
+            arquivo = entrada.nextLine();
+        }
         
-        leitor.imprimirAnais();
+        
+        Saida s = new Saida();
+        
+        s.escolherOperacao(arquivo,leitor);
+        
+        s.imprimirAnais(leitor);
         
         entrada.close();
         long endTime = System.currentTimeMillis();

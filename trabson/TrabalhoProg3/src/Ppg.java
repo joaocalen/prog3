@@ -8,7 +8,7 @@
  *
  * @author 2018103815
  */
-public class Ppg {
+public class Ppg implements Comparable<Ppg> {
 	String codigo;
 	String nome;
 
@@ -31,6 +31,11 @@ public class Ppg {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	@Override
+	public int compareTo(Ppg o) {
+		return codigo.compareTo(o.codigo);
 	}
 
 }

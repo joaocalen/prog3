@@ -11,7 +11,7 @@
  */
 
 // funciona como tabela intermediária entra a classe Ppg e Instituição, para melhor busca.
-public class Ppg_Instituicao {
+public class Ppg_Instituicao implements Comparable<Ppg_Instituicao> {
     String codigoPpg;
     String siglaInst;
     
@@ -30,6 +30,16 @@ public class Ppg_Instituicao {
 	}
 	public void setSiglaInst(String siglaInst) {
 		this.siglaInst = siglaInst;
+	}
+	@Override
+	public int compareTo(Ppg_Instituicao o) {
+		if(this.codigoPpg.equals(o.codigoPpg)) {
+			return siglaInst.compareTo(o.siglaInst);
+		} else {
+			return codigoPpg.compareTo(o.codigoPpg);	
+		}
+		
+		
 	}
     
     

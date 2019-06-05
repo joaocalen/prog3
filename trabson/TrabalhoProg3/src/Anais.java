@@ -54,5 +54,6 @@ public class Anais extends TipoProducao{
 
     public void setEvento(String evento) {
         this.evento = evento;
-    }    
+    }
+    
 }
