@@ -14,10 +14,15 @@
 public class Ppg_Instituicao implements Comparable<Ppg_Instituicao> {
     String codigoPpg;
     String siglaInst;
-    
-	public Ppg_Instituicao(String codigoPpg, String siglaInst) {		
+    String nomePpg;
+    String nomeInst;   
+	
+	public Ppg_Instituicao(String codigoPpg, String siglaInst, String nomePpg, String nomeInst) {
+		super();
 		this.codigoPpg = codigoPpg;
 		this.siglaInst = siglaInst;
+		this.nomePpg = nomePpg;
+		this.nomeInst = nomeInst;
 	}
 	public String getCodigoPpg() {
 		return codigoPpg;
@@ -30,6 +35,19 @@ public class Ppg_Instituicao implements Comparable<Ppg_Instituicao> {
 	}
 	public void setSiglaInst(String siglaInst) {
 		this.siglaInst = siglaInst;
+	}
+	
+	public String getNomePpg() {
+		return nomePpg;
+	}
+	public void setNomePpg(String nomePpg) {
+		this.nomePpg = nomePpg;
+	}
+	public String getNomeInst() {
+		return nomeInst;
+	}
+	public void setNomeInst(String nomeInst) {
+		this.nomeInst = nomeInst;
 	}
 	@Override
 	public int compareTo(Ppg_Instituicao o) {

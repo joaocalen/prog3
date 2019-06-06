@@ -17,7 +17,7 @@ public class TrabalhoProg3 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    	long initialTime = System.currentTimeMillis();
+    	//long initialTime = System.currentTimeMillis();
         Scanner entrada = new Scanner(System.in);
         
         String pasta = entrada.nextLine();
@@ -30,15 +30,17 @@ public class TrabalhoProg3 {
         }
         
         
+        leitor.lerCSV(pasta+arquivo);
+        
         Saida s = new Saida();
         
         s.escolherOperacao(arquivo,leitor);
         
-        s.imprimirAnais(leitor);
+        //s.imprimirAnais(leitor);
         
         entrada.close();
-        long endTime = System.currentTimeMillis();
-        System.out.println("Tempo total em segundos: " + (endTime - initialTime)/1000);
+       // long endTime = System.currentTimeMillis();
+        //System.out.println("Tempo total em segundos: " + (endTime - initialTime)/1000);
     }
 
 

@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class LeitorDeArquivo {
-	TreeSet<Ppg> ppgs;
-	ArrayList<TipoProducao> producoes;
-	TreeSet<Instituicao> instituicoes;
-	TreeSet<Ppg_Instituicao> ppgs_instituicoes;
+	private TreeSet<Ppg> ppgs;
+	private ArrayList<TipoProducao> producoes;
+	private TreeSet<Instituicao> instituicoes;
+	private TreeSet<Ppg_Instituicao> ppgs_instituicoes;
 	private BufferedReader br;
-	long numPaginas;
-	int numDocs;
+	private int numPaginas;
+	private int numDocs;
 
 	public LeitorDeArquivo() {
 		ppgs = new TreeSet<Ppg>();
@@ -127,7 +127,7 @@ public class LeitorDeArquivo {
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
 
 		Artjr aj = new Artjr(campos[cidade].trim(), 0, cd_ppg, campos[titulo].trim(), campos[idioma].trim(), null,
 				campos[issn].trim());
@@ -149,7 +149,7 @@ public class LeitorDeArquivo {
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
 
 		Artpe ap = new Artpe(campos[cidade].trim(), 0, cd_ppg.trim(), campos[natureza].trim(), campos[idioma].trim(),
 				campos[editora].trim(), campos[volume].trim(), campos[fasciculo].trim(), campos[serie].trim(),
@@ -172,7 +172,7 @@ public class LeitorDeArquivo {
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
 
 		Livro l = new Livro(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[titulo].trim(),
 				campos[idioma].trim(), campos[isbn].trim(), campos[editora].trim());
@@ -194,7 +194,7 @@ public class LeitorDeArquivo {
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
 
 		Partitura p = new Partitura(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[editora].trim(),
 				campos[formacao].trim());
@@ -217,7 +217,7 @@ public class LeitorDeArquivo {
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
 		Outro o = new Outro(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[idioma].trim(),
 				campos[editora].trim());
 		o.setNumPaginas(adicionarNumeroPaginas(campos[paginas].trim(), "1"));
@@ -238,7 +238,7 @@ public class LeitorDeArquivo {
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
 		Traducao t = new Traducao(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[titulo].trim(),
 				campos[idioma].trim(), campos[editora].trim(), campos[traducao].trim());
 		t.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), "1"));
@@ -260,7 +260,7 @@ public class LeitorDeArquivo {
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg, sigla_inst);
+		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
 		Anais a = new Anais(campos[natureza].trim(), campos[titulo].trim(), campos[idioma].trim(),
 				campos[evento].trim(), campos[cidade].trim(), 0, cd_ppg);
 		a.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim()));
@@ -269,11 +269,13 @@ public class LeitorDeArquivo {
 
 	public int adicionarNumeroPaginas(String pagFinal, String pagInicial) {
 		try {
-			long pags = Long.parseLong(pagFinal) - Long.parseLong(pagInicial) + 1;
-			if (pags > 0 && pags < 2000 && Long.parseLong(pagFinal) > 0 && Long.parseLong(pagInicial) > 0) {
+			int pagF = Integer.parseInt(pagFinal);
+			int pagI = Integer.parseInt(pagInicial);
+			int pags = pagF - pagI +1;
+			if (pags > 0 && pags < 2000 && pagF > 0 && pagI > 0) {
 				numPaginas += pags;
 				numDocs++;
-				return (int) pags;
+				return pags;
 			}
 		} catch (NumberFormatException e) {
 			return 0;
@@ -297,8 +299,8 @@ public class LeitorDeArquivo {
 		this.instituicoes.add(i);
 	}
 
-	public void inserePpg_Instituicao(String cd_ppg, String sigla) {
-		Ppg_Instituicao ppgI = new Ppg_Instituicao(cd_ppg, sigla);
+	public void inserePpg_Instituicao(String cd_ppg, String sigla, String nomePpg, String nomeInst) {
+		Ppg_Instituicao ppgI = new Ppg_Instituicao(cd_ppg, sigla, nomePpg, nomeInst);
 		if (this.ppgs_instituicoes.contains(ppgI)) {
 			return;
 		}
@@ -345,11 +347,11 @@ public class LeitorDeArquivo {
 		this.br = br;
 	}
 
-	public long getNumPaginas() {
+	public int getNumPaginas() {
 		return numPaginas;
 	}
 
-	public void setNumPaginas(long numPaginas) {
+	public void setNumPaginas(int numPaginas) {
 		this.numPaginas = numPaginas;
 	}
 
