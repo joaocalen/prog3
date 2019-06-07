@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Artjr extends TipoProducao implements Comparable<Artjr> {
@@ -5,6 +6,8 @@ public class Artjr extends TipoProducao implements Comparable<Artjr> {
 	String idioma;
 	Date data;
 	String issn;
+	SimpleDateFormat formato;
+	SimpleDateFormat formato2;
 
 	public Artjr(String cidade, int numPaginas, String cd_Ppg, String instituicao, String titulo, String idioma,
 			Date data, String issn) {
@@ -13,6 +16,8 @@ public class Artjr extends TipoProducao implements Comparable<Artjr> {
 		this.idioma = idioma;
 		this.data = data;
 		this.issn = issn;
+		formato = new SimpleDateFormat("dd/MM/yyyy");
+		formato2 = new SimpleDateFormat("yyyy/MM/dd");
 	}
 
 	public String getTitulo() {
@@ -49,11 +54,19 @@ public class Artjr extends TipoProducao implements Comparable<Artjr> {
 
 	@Override
 	public String toString() {
-		return titulo + ";" + idioma + ";"  + cidade + ";" + data + ";" + issn + ";" + numPaginas;
+		String pag = "";
+		if(numPaginas != 0) {
+			pag = Integer.toString(numPaginas);
+		}
+		return titulo + ";" + idioma + ";"  + cidade + ";" + formato.format(data) + ";" + issn + ";" + pag;
+	}
+	
+	public String toString2() {
+		return titulo + ";" + idioma + ";"  + cidade + ";" + formato2.format(data) + ";" + issn + ";" + numPaginas;
 	}
 	
 	public String comparacao() {
-		return titulo  + idioma   + cidade  + data  + issn  + numPaginas;
+		return toString2().replaceAll(";", Character.toString((char)1));
 	}
 
 	@Override

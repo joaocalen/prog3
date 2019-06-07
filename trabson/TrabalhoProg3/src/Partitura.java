@@ -37,11 +37,15 @@ public class Partitura extends TipoProducao implements Comparable<Partitura> {
 
 	@Override
 	public String toString() {
-		return natureza + ";" + editora + ";"  + cidade + ";" + formacao + ";" + numPaginas;
+		String pag = "";
+		if(numPaginas != 0) {
+			pag = Integer.toString(numPaginas);
+		}
+		return natureza + ";" + editora + ";"  + cidade + ";" + formacao + ";" + pag;
 	}
 	
 	public String comparacao() {
-		return natureza  + editora   + cidade  + formacao  + numPaginas;
+		return toString().replaceAll(";", Character.toString((char)1));
 	}
 
 	@Override

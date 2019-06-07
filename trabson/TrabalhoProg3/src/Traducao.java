@@ -59,11 +59,15 @@ public class Traducao extends TipoProducao implements Comparable<Traducao> {
 
 	@Override
 	public String toString() {
-		return titulo + ";" + titulo + ";" + idioma + ";" + editora + ";"  + cidade + ";" + idiomaTraducao + ";" + numPaginas;
+		String pag = "";
+		if(numPaginas != 0) {
+			pag = Integer.toString(numPaginas);
+		}		
+		return natureza + ";" + titulo + ";" + idioma + ";" + editora + ";"  + cidade + ";" + idiomaTraducao + ";" + pag;
 	}
 	
 	public String comparacao() {
-		return titulo + titulo + idioma + editora  + cidade + idiomaTraducao + numPaginas;
+		return toString().replaceAll(";", Character.toString((char)1));
 	}
 
 	@Override

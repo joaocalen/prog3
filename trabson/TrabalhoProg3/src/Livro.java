@@ -50,11 +50,15 @@ public class Livro extends TipoProducao implements Comparable<Livro> {
 
 	@Override
 	public String toString() {
-		return natureza + ";" + titulo + ";" + idioma + ";" + editora + ";"  + cidade + ";" + isbn + ";" + numPaginas;
+		String pag = "";
+		if(numPaginas != 0) {
+			pag = Integer.toString(numPaginas);
+		}
+		return natureza + ";" + titulo + ";" + idioma + ";" + editora + ";"  + cidade + ";" + isbn + ";" + pag;
 	}
 	
 	public String comparacao() {
-		return natureza  + titulo  + idioma  + editora   + cidade  + isbn  + numPaginas;
+		return toString().replaceAll(";", Character.toString((char)1));
 	}
 
 	@Override

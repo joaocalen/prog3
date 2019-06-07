@@ -3,7 +3,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TreeSet;
 
 public class LeitorDeArquivo {
@@ -27,7 +30,8 @@ public class LeitorDeArquivo {
 	public void lerCSV(String nome) {
 		try {
 			String linha;
-			String[] campos = new String[25];
+			String[] campos = new String[50];
+
 			br = new BufferedReader(new FileReader(nome));
 			linha = br.readLine();
 			campos = linha.split(";");
@@ -38,6 +42,7 @@ public class LeitorDeArquivo {
 			int pagInicial = verificarColuna(campos, "NR_PAGINA_INICIAL");
 			int evento = verificarColuna(campos, "DS_EVENTO");
 			int cidade = verificarColuna(campos, "NM_CIDADE");
+			int cidadePais = verificarColuna(campos, "NM_CIDADE_PAIS");
 			int idioma = verificarColuna(campos, "DS_IDIOMA");
 			int data = verificarColuna(campos, "DT_PUBLICACAO");
 			int issn = verificarColuna(campos, "DS_ISSN");
@@ -50,49 +55,98 @@ public class LeitorDeArquivo {
 			int formacao = verificarColuna(campos, "DS_FORMACAO_INSTRUMENTAL");
 			int traducao = verificarColuna(campos, "DS_IDIOMA_TRADUCAO");
 			int editoraTraducao = verificarColuna(campos, "NM_EDITORA_TRADUCAO");
-
+			int paginasContribuicao = verificarColuna(campos, "NR_PAGINAS_CONTRIBUICAO");
 			if (traducao != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
-					campos = linha.split(";");
-					adicionarTraducoes(campos, natureza, titulo, paginas, idioma, editoraTraducao, cidade, traducao);
+					String linhaAux = retiraPontoVirgula(linha);
+					campos = linhaAux.split(";");
+					if (linhaAux.equals(linha)) {
+						adicionarTraducoes(campos, natureza, titulo, paginas, idioma, editoraTraducao, cidade,
+								traducao);
+					} else {
+						campos = devolvePontoVirgula(campos);
+						adicionarTraducoes(campos, natureza, titulo, paginas, idioma, editoraTraducao, cidade,
+								traducao);
+					}
+
 				}
 			} else if (formacao != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
-					campos = linha.split(";");
-					adicionarPartitura(campos, natureza, editora, cidade, formacao, paginas);
+					String linhaAux = retiraPontoVirgula(linha);
+					campos = linhaAux.split(";");
+					if (linhaAux.equals(linha)) {
+						adicionarPartitura(campos, natureza, editora, cidade, formacao, paginas);
+					} else {
+						campos = devolvePontoVirgula(campos);
+						adicionarPartitura(campos, natureza, editora, cidade, formacao, paginas);
+					}
+
 				}
 			} else if (isbn != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
-					campos = linha.split(";");
-					adicionarLivro(campos, natureza, titulo, idioma, editora, cidade, isbn, paginas);
+					String linhaAux = retiraPontoVirgula(linha);
+					campos = linhaAux.split(";");
+					if (linhaAux.equals(linha)) {
+						adicionarLivro(campos, natureza, titulo, idioma, editora, cidadePais, isbn, paginasContribuicao);
+					} else {
+						campos = devolvePontoVirgula(campos);
+						adicionarLivro(campos, natureza, titulo, idioma, editora, cidadePais, isbn, paginasContribuicao);
+					}
+
 				}
 			} else if (data != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
-					campos = linha.split(";");
-					adicionarArtjr(campos, cidade, titulo, idioma, data, issn, pagFinal, pagInicial);
+					String linhaAux = retiraPontoVirgula(linha);
+					campos = linhaAux.split(";");
+					if (linhaAux.equals(linha)) {
+						adicionarArtjr(campos, cidade, titulo, idioma, data, issn, pagFinal, pagInicial);
+					} else {
+						campos = devolvePontoVirgula(campos);
+						adicionarArtjr(campos, cidade, titulo, idioma, data, issn, pagFinal, pagInicial);
+					}
+
 				}
 			} else if (issn != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
-					campos = linha.split(";");
-					adicionarArtpe(campos, natureza, idioma, editora, cidade, volume, fasciculo, serie, issn, pagFinal,
-							pagInicial);
+					String linhaAux = retiraPontoVirgula(linha);
+					campos = linhaAux.split(";");
+					if (linhaAux.equals(linha)) {
+						adicionarArtpe(campos, natureza, idioma, editora, cidade, volume, fasciculo, serie, issn,
+								pagFinal, pagInicial);
+					} else {
+						campos = devolvePontoVirgula(campos);
+						adicionarArtpe(campos, natureza, idioma, editora, cidade, volume, fasciculo, serie, issn,
+								pagFinal, pagInicial);
+					}
 				}
 			} else if (titulo != -1) {
 				while (br.ready()) {
 					linha = br.readLine();
-					campos = linha.split(";");
-					adicionarAnais(campos, natureza, titulo, pagFinal, pagInicial, evento, cidade, idioma);
+					String linhaAux = retiraPontoVirgula(linha);
+					campos = linhaAux.split(";");
+					if (linhaAux.equals(linha)) {
+						adicionarAnais(campos, natureza, titulo, pagFinal, pagInicial, evento, cidade, idioma);
+					} else {
+						campos = devolvePontoVirgula(campos);
+						adicionarAnais(campos, natureza, titulo, pagFinal, pagInicial, evento, cidade, idioma);
+					}
 				}
 			} else {
 				while (br.ready()) {
 					linha = br.readLine();
-					campos = linha.split(";");
-					adicionarOutros(campos, natureza, idioma, editora, cidade, paginas);
+					String linhaAux = retiraPontoVirgula(linha);
+					campos = linhaAux.split(";");
+					if (linhaAux.equals(linha)) {
+						adicionarOutros(campos, natureza, idioma, editora, cidade, paginas);
+					} else {
+						campos = devolvePontoVirgula(campos);
+						adicionarOutros(campos, natureza, idioma, editora, cidade, paginas);
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -126,13 +180,15 @@ public class LeitorDeArquivo {
 		nome_inst = campos[3].trim();
 
 		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim());
+		
+		Date dataConvertida = converterData(campos[data].trim());
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
 		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
 
 		Artjr aj = new Artjr(campos[cidade].trim(), 0, cd_ppg, sigla_inst, campos[titulo].trim(), campos[idioma].trim(),
-				null, campos[issn].trim());
+				dataConvertida, campos[issn].trim());
 		aj.setNumPaginas(pags);
 		this.producoes.add(aj);
 	}
@@ -177,7 +233,7 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
-		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), "1");
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim());
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
 		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
@@ -200,7 +256,7 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
-		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), "1");
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim());
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
 		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
@@ -224,7 +280,7 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
-		int pags = adicionarNumeroPaginas(campos[paginas].trim(), "1");
+		int pags = adicionarNumeroPaginas(campos[paginas].trim());
 
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
@@ -247,7 +303,7 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
-		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), "1");
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim());
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
 		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
@@ -289,12 +345,23 @@ public class LeitorDeArquivo {
 		}
 	}
 
+	public Date converterData(String data) {
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		Date dataConvertida;
+		try {
+			dataConvertida = formato.parse(data);
+			return dataConvertida;
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
 	public int adicionarNumeroPaginas(String pagFinal, String pagInicial) {
 		try {
 			int pagF = Integer.parseInt(pagFinal);
 			int pagI = Integer.parseInt(pagInicial);
 			int pags = pagF - pagI + 1;
-			if (pags > 0 && pags < 2000 && pagF > 0 && pagI > 0) {
+			if (pags > 0 && pags < 2000 && pagF >= 0 && pagI >= 0) {
 				numPaginas += pags;
 				numDocs++;
 				return pags;
@@ -303,6 +370,15 @@ public class LeitorDeArquivo {
 			return 0;
 		}
 		return 0;
+	}
+
+	public int adicionarNumeroPaginas(String paginas) {
+		try {
+			int pag = Integer.parseInt(paginas);
+			return pag;
+		} catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	public void inserePpg(String cd, String nome) {
@@ -327,6 +403,32 @@ public class LeitorDeArquivo {
 			return;
 		}
 		this.ppgs_instituicoes.add(ppgI);
+	}
+
+	public String retiraPontoVirgula(String linha) {
+		boolean possuiAspa = false;
+		for (int i = 0; i < linha.length(); i++) {
+			if (linha.charAt(i) == '"') {
+				possuiAspa = !possuiAspa;
+			}
+			if (linha.charAt(i) == ';' && possuiAspa) {
+				linha = linha.substring(0, i) + (char) 127 + linha.substring(i + 1);
+			}
+		}
+		return linha;
+	}
+
+	public String[] devolvePontoVirgula(String[] campos) {
+		int i = 0;
+		for (String s : campos) {
+			for (int j = 0; j < campos[i].length(); j++) {
+				if (campos[i].charAt(j) == (char) 127) {
+					campos[i] = campos[i].substring(0, j) + ";" + campos[i].substring(j + 1);
+				}
+			}
+			i++;
+		}
+		return campos;
 	}
 
 	public TreeSet<Ppg> getPpgs() {
@@ -384,4 +486,5 @@ public class LeitorDeArquivo {
 	public void setNumDocs(int numDocs) {
 		this.numDocs = numDocs;
 	}
+
 }

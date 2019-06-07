@@ -58,11 +58,15 @@ public class Anais extends TipoProducao implements Comparable<Anais> {
 
 	@Override
 	public String toString() {
-		return natureza + ";" + titulo + ";" + idioma + ";" + evento + ";" + cidade + ";" + numPaginas;
+		String pag = "";
+		if(numPaginas != 0) {
+			pag = Integer.toString(numPaginas);
+		}
+		return natureza + ";" + titulo + ";" + idioma + ";" + evento + ";" + cidade + ";" + pag;
 	}
 	
 	public String comparacao() {
-		return natureza  + titulo  + idioma  + evento  + cidade  + numPaginas;
+		return toString().replaceAll(";", Character.toString((char)1));
 	}
 
 	@Override

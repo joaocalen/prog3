@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 /*
@@ -8,15 +9,18 @@ import java.util.Scanner;
 
 /**
  *
- * @author 2018103815
+ * @author Joao Felipe Gobeti Calenzani
  */
-public class TrabalhoProg3 {
+public class T1_2019_1_Etapa05 {
 
 	/**
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		long initialTime = System.currentTimeMillis();
+		// tempo de início da execução do programa para cálculos de desempenho no
+		// desenvolvimento do mesmo
+		// long initialTime = System.currentTimeMillis();
+		Locale.setDefault(new Locale("pt", "BR"));
 		Scanner entrada = new Scanner(System.in);
 
 		String pasta = entrada.nextLine();
@@ -28,17 +32,20 @@ public class TrabalhoProg3 {
 			arquivo = entrada.nextLine();
 		}
 
-		// leitor.lerCSV(pasta+arquivo);
+		// Leitura para Etapa1
+		// leitor.lerCSV(pasta + arquivo);
 
 		Saida s = new Saida();
 
 		s.escolherOperacao(arquivo, leitor);
-
+		// etapa 1
 		// s.imprimirAnais(leitor);
 
 		entrada.close();
-		long endTime = System.currentTimeMillis();
-		System.out.println("Tempo total em segundos: " + (endTime - initialTime) / 1000);
+		/
+		/long endTime = System.currentTimeMillis();
+		// System.out.println("Tempo total em segundos: " + (endTime - initialTime) /
+		// 1000);
 	}
 
 }

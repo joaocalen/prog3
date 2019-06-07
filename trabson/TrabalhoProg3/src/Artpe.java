@@ -79,16 +79,61 @@ public class Artpe extends TipoProducao implements Comparable<Artpe> {
 
 	@Override
 	public String toString() {
-		return natureza + ";" + idioma + ";" + editora + ";" + cidade + ";" + volume + ";" + fasciculo + ";" + serie
-				+ ";" + issn + ";" + numPaginas;
+		String pag = "", vol = "", fasc = "", ser = "";
+		if (numPaginas != 0) {
+			pag = Integer.toString(numPaginas);
+		}
+		if (volume != 0) {
+			vol = Integer.toString(volume);
+		}
+		if (fasciculo != 0) {
+			fasc = Integer.toString(fasciculo);
+		}
+		if (serie != 0) {
+			ser = Integer.toString(serie);
+		}
+		return natureza + ";" + idioma + ";" + editora + ";" + cidade + ";" + vol + ";" + fasc + ";" + ser + ";" + issn
+				+ ";" + pag;
 	}
 
 	public String comparacao() {
-		return natureza + idioma + editora + cidade + volume + fasciculo + serie + issn + numPaginas;
+		return toString().replaceAll(";", Character.toString((char) 1));
 	}
 
 	@Override
 	public int compareTo(Artpe o) {
-		return o.comparacao().compareToIgnoreCase(this.comparacao());
+		if (this.natureza.equals(o.natureza)) {
+			if (this.idioma.equals(o.idioma)) {
+				if (this.editora.equals(o.editora)) {
+					if (this.cidade.equals(o.cidade)) {
+						if (this.volume == o.volume) {
+							if (this.fasciculo == o.fasciculo) {
+								if (this.serie == o.serie) {
+									if (this.issn.equals(o.issn)) {
+										return (this.numPaginas > o.numPaginas) ? 1 : -1;
+									} else {
+										return this.issn.compareTo(o.issn);
+									}
+								} else {
+									return (this.serie > o.serie) ? 1 : -1;
+								}
+							} else {
+								return (this.fasciculo > o.fasciculo) ? 1 : -1;
+							}
+						} else {
+							return (this.volume > o.volume) ? 1 : -1;
+						}
+					} else {
+						return this.cidade.compareTo(o.cidade);
+					}
+				} else {
+					return this.editora.compareTo(o.editora);
+				}
+			} else {
+				return this.idioma.compareTo(o.idioma);
+			}
+		} else {
+			return this.natureza.compareTo(o.natureza);
+		}
 	}
 }

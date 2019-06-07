@@ -33,11 +33,15 @@ public class Outro extends TipoProducao implements Comparable<Outro> {
 	
 	@Override
 	public String toString() {
-		return natureza + ";" + idioma + ";"  + editora + ";" + cidade + ";" + numPaginas;
+		String pag = "";
+		if(numPaginas != 0) {
+			pag = Integer.toString(numPaginas);
+		}
+		return natureza + ";" + idioma + ";"  + editora + ";" + cidade + ";" + pag;
 	}
 	
 	public String comparacao() {
-		return natureza + ";" + idioma + ";"  + editora + ";" + cidade + ";" + numPaginas;
+		return toString().replaceAll(";", Character.toString((char)1));
 	}
 	
 	@Override
