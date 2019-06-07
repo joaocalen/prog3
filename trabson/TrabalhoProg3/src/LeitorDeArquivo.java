@@ -125,13 +125,15 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim());
+
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
 
-		Artjr aj = new Artjr(campos[cidade].trim(), 0, cd_ppg, campos[titulo].trim(), campos[idioma].trim(), null,
-				campos[issn].trim());
-		aj.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim()));
+		Artjr aj = new Artjr(campos[cidade].trim(), 0, cd_ppg, sigla_inst, campos[titulo].trim(), campos[idioma].trim(),
+				null, campos[issn].trim());
+		aj.setNumPaginas(pags);
 		this.producoes.add(aj);
 	}
 
@@ -147,14 +149,19 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
+		int fasc = conversaoInt(campos[fasciculo].trim());
+		int ser = conversaoInt(campos[serie].trim());
+		int vol = conversaoInt(campos[volume].trim());
+
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim());
+
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
 
-		Artpe ap = new Artpe(campos[cidade].trim(), 0, cd_ppg.trim(), campos[natureza].trim(), campos[idioma].trim(),
-				campos[editora].trim(), campos[volume].trim(), campos[fasciculo].trim(), campos[serie].trim(),
-				campos[issn].trim());
-		ap.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim()));
+		Artpe ap = new Artpe(campos[cidade].trim(), 0, cd_ppg, sigla_inst, campos[natureza].trim(),
+				campos[idioma].trim(), campos[editora].trim(), vol, fasc, ser, campos[issn].trim());
+		ap.setNumPaginas(pags);
 		this.producoes.add(ap);
 	}
 
@@ -170,13 +177,14 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), "1");
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
 
-		Livro l = new Livro(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[titulo].trim(),
-				campos[idioma].trim(), campos[isbn].trim(), campos[editora].trim());
-		l.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), "1"));
+		Livro l = new Livro(campos[cidade].trim(), 0, cd_ppg, sigla_inst, campos[natureza].trim(),
+				campos[titulo].trim(), campos[idioma].trim(), campos[isbn].trim(), campos[editora].trim());
+		l.setNumPaginas(pags);
 		this.producoes.add(l);
 	}
 
@@ -192,13 +200,14 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), "1");
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
 
-		Partitura p = new Partitura(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[editora].trim(),
-				campos[formacao].trim());
-		p.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), "1"));
+		Partitura p = new Partitura(campos[cidade].trim(), 0, cd_ppg, sigla_inst, campos[natureza].trim(),
+				campos[editora].trim(), campos[formacao].trim());
+		p.setNumPaginas(pags);
 		this.producoes.add(p);
 
 	}
@@ -215,12 +224,14 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
+		int pags = adicionarNumeroPaginas(campos[paginas].trim(), "1");
+
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
-		Outro o = new Outro(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[idioma].trim(),
-				campos[editora].trim());
-		o.setNumPaginas(adicionarNumeroPaginas(campos[paginas].trim(), "1"));
+		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
+		Outro o = new Outro(campos[cidade].trim(), 0, cd_ppg, sigla_inst, campos[natureza].trim(),
+				campos[idioma].trim(), campos[editora].trim());
+		o.setNumPaginas(pags);
 		this.producoes.add(o);
 	}
 
@@ -236,12 +247,13 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), "1");
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
-		Traducao t = new Traducao(campos[cidade].trim(), 0, cd_ppg, campos[natureza].trim(), campos[titulo].trim(),
-				campos[idioma].trim(), campos[editora].trim(), campos[traducao].trim());
-		t.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), "1"));
+		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
+		Traducao t = new Traducao(campos[cidade].trim(), 0, cd_ppg, sigla_inst, campos[natureza].trim(),
+				campos[titulo].trim(), campos[idioma].trim(), campos[editora].trim(), campos[traducao].trim());
+		t.setNumPaginas(pags);
 		this.producoes.add(t);
 
 	}
@@ -258,20 +270,30 @@ public class LeitorDeArquivo {
 		sigla_inst = campos[2].trim();
 		nome_inst = campos[3].trim();
 
+		int pags = adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim());
+
 		inserePpg(cd_ppg, nome_ppg);
 		insereInstituicao(sigla_inst, nome_inst);
-		inserePpg_Instituicao(cd_ppg,sigla_inst,nome_ppg,nome_inst);
+		inserePpg_Instituicao(cd_ppg, sigla_inst, nome_ppg, nome_inst);
 		Anais a = new Anais(campos[natureza].trim(), campos[titulo].trim(), campos[idioma].trim(),
-				campos[evento].trim(), campos[cidade].trim(), 0, cd_ppg);
-		a.setNumPaginas(adicionarNumeroPaginas(campos[pagFinal].trim(), campos[pagInicial].trim()));
+				campos[evento].trim(), campos[cidade].trim(), 0, cd_ppg, sigla_inst);
+		a.setNumPaginas(pags);
 		this.producoes.add(a);
+	}
+
+	public int conversaoInt(String inteiro) {
+		try {
+			return Integer.parseInt(inteiro);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	public int adicionarNumeroPaginas(String pagFinal, String pagInicial) {
 		try {
 			int pagF = Integer.parseInt(pagFinal);
 			int pagI = Integer.parseInt(pagInicial);
-			int pags = pagF - pagI +1;
+			int pags = pagF - pagI + 1;
 			if (pags > 0 && pags < 2000 && pagF > 0 && pagI > 0) {
 				numPaginas += pags;
 				numDocs++;

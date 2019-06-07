@@ -1,19 +1,19 @@
-public class Livro extends TipoProducao {
+public class Livro extends TipoProducao implements Comparable<Livro> {
 
 	String natureza;
 	String titulo;
 	String idioma;
-	String isbn;
 	String editora;
+	String isbn;
 
-	public Livro(String cidade, int numPaginas, String cd_Ppg, String natureza, String titulo, String idioma,
-			String isbn, String editora) {
-		super(cidade, numPaginas, cd_Ppg);
+	public Livro(String cidade, int numPaginas, String cd_Ppg, String instituicao, String natureza, String titulo,
+			String idioma, String isbn, String editora) {
+		super(cidade, numPaginas, cd_Ppg, instituicao);
 		this.natureza = natureza;
 		this.titulo = titulo;
 		this.idioma = idioma;
-		this.isbn = isbn;
 		this.editora = editora;
+		this.isbn = isbn;
 	}
 
 	public String getNatureza() {
@@ -46,6 +46,20 @@ public class Livro extends TipoProducao {
 
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
+	}
+
+	@Override
+	public String toString() {
+		return natureza + ";" + titulo + ";" + idioma + ";" + editora + ";"  + cidade + ";" + isbn + ";" + numPaginas;
+	}
+	
+	public String comparacao() {
+		return natureza  + titulo  + idioma  + editora   + cidade  + isbn  + numPaginas;
+	}
+
+	@Override
+	public int compareTo(Livro o) {
+		return this.comparacao().compareToIgnoreCase(o.comparacao());
 	}
 
 }

@@ -10,7 +10,7 @@
  * @author 2018103815
  */
 
-// funciona como tabela intermediária entra a classe Ppg e Instituição, para melhor busca.
+// funciona como tabela intermediaria entra a classe Ppg e Instituicao, para melhor busca.
 public class Ppg_Instituicao implements Comparable<Ppg_Instituicao> {
     String codigoPpg;
     String siglaInst;

@@ -14,11 +14,13 @@ public class TipoProducao {
     String cidade;
     int numPaginas;
     String cd_Ppg;
+    String instituicao;
 
-    public TipoProducao(String cidade, int numPaginas, String cd_Ppg) {
+    public TipoProducao(String cidade, int numPaginas, String cd_Ppg, String instituicao) {
         this.cidade = cidade;
         this.numPaginas = numPaginas;
         this.cd_Ppg = cd_Ppg;
+        this.instituicao = instituicao;
     }    
 
     public int getNumPaginas() {
@@ -36,6 +38,24 @@ public class TipoProducao {
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
+
+	public String getCd_Ppg() {
+		return cd_Ppg;
+	}
+
+	public void setCd_Ppg(String cd_Ppg) {
+		this.cd_Ppg = cd_Ppg;
+	}
+
+	public String getInstituicao() {
+		return instituicao;
+	}
+
+	public void setInstituicao(String instituicao) {
+		this.instituicao = instituicao;
+	}
+    
+    
     
     
 

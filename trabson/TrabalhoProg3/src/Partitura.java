@@ -1,10 +1,11 @@
-public class Partitura extends TipoProducao {
+public class Partitura extends TipoProducao implements Comparable<Partitura> {
 	String natureza;
 	String editora;
 	String formacao;
 
-	public Partitura(String cidade, int numPaginas, String cd_Ppg, String natureza, String editora, String formacao) {
-		super(cidade, numPaginas, cd_Ppg);
+	public Partitura(String cidade, int numPaginas, String cd_Ppg, String instituicao, String natureza, String editora,
+			String formacao) {
+		super(cidade, numPaginas, cd_Ppg, instituicao);
 		this.natureza = natureza;
 		this.editora = editora;
 		this.formacao = formacao;
@@ -33,5 +34,21 @@ public class Partitura extends TipoProducao {
 	public void setFormacao(String formacao) {
 		this.formacao = formacao;
 	}
+
+	@Override
+	public String toString() {
+		return natureza + ";" + editora + ";"  + cidade + ";" + formacao + ";" + numPaginas;
+	}
+	
+	public String comparacao() {
+		return natureza  + editora   + cidade  + formacao  + numPaginas;
+	}
+
+	@Override
+	public int compareTo(Partitura o) {
+		return this.comparacao().compareToIgnoreCase(o.comparacao());
+	}
+	
+	
 
 }
